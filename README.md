@@ -1,2 +1,2 @@
-# water-meter
+# water meter
 Save water meters
