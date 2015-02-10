@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WM.AspNetMvc", "WM.AspNetMvc\WM.AspNetMvc.csproj", "{509F85A3-52A3-4728-A37A-6D749D5A551D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WM.AspNetMvc.Tests", "WM.AspNetMvc.Tests\WM.AspNetMvc.Tests.csproj", "{AA2D1682-DD66-4303-AA04-F426428511A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{509F85A3-52A3-4728-A37A-6D749D5A551D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{509F85A3-52A3-4728-A37A-6D749D5A551D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{509F85A3-52A3-4728-A37A-6D749D5A551D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{509F85A3-52A3-4728-A37A-6D749D5A551D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA2D1682-DD66-4303-AA04-F426428511A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA2D1682-DD66-4303-AA04-F426428511A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA2D1682-DD66-4303-AA04-F426428511A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA2D1682-DD66-4303-AA04-F426428511A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
