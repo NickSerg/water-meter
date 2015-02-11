@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WM.AspNetMvc.Models;
 
@@ -53,6 +51,21 @@ namespace WM.AspNetMvc.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult DeleteWaterMeter(WaterMeter waterMeter)
+        {
+            if (waterMeter != null)
+            {
+                var deleteWaterMeter = waterMeterDataContext.WaterMeters.Find(waterMeter.Id);
+                if (deleteWaterMeter != null)
+                {
+                    waterMeterDataContext.WaterMeters.Remove(deleteWaterMeter);
+                    waterMeterDataContext.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
