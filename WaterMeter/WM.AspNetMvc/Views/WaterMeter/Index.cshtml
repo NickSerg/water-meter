@@ -1,5 +1,5 @@
 ﻿@using WM.AspNetMvc.Models
-@model System.Data.Entity.DbSet<WM.AspNetMvc.Models.WaterMeter>
+@model IOrderedQueryable<WaterMeter>
 
 @{
     ViewBag.Title = "Показания прибора учёта";
@@ -9,20 +9,20 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Период показаний</th>
-        <th>Холодная вода</th>
-        <th>Горячая вода</th>
-        <th>Дата регистрации показаний</th>
+        <th>Дата для расчёта</th>
+        <th>Холодная</th>
+        <th>Горячая</th>
+        <th>Дата регистрации</th>
     </tr>
     </thead>
     <tbody>
     @foreach (WaterMeter waterMeter in Model)
     {
         <tr>
-            <td>@waterMeter.Period</td>
+            <td>@waterMeter.Period.ToString("yyyy MMMM")</td>
             <td>@waterMeter.Cold</td>
             <td>@waterMeter.Hot</td>
-            <td>@waterMeter.Created</td>
+            <td>@waterMeter.Created.ToString("d")</td>
         </tr>
     }
     </tbody>

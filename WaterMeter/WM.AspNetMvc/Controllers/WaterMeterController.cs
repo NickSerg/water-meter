@@ -21,7 +21,7 @@ namespace WM.AspNetMvc.Controllers
         {
             ViewBag.MyHeader = "Water Meter";
             
-            return View(waterMeterDataContext.WaterMeters);
+            return View(waterMeterDataContext.WaterMeters.OrderByDescending(x=>x.Period));
         }
 
         [HttpGet]
