@@ -31,11 +31,23 @@ namespace WM.AspNetMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddWaterMeter(WaterMeter waterMeter)
+        public ActionResult AddWaterMeter(WaterMeterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                waterMeterDataContext.WaterMeters.Add(waterMeter);
+                var waterMeter = waterMeterDataContext.WaterMeters.FirstOrDefault(x =>
+                    x.Period.Month == model.PeriodMonth
+                    && x.Period.Year == model.PeriodYear);
+
+                var isNew = waterMeter == null;
+                if(isNew)
+                    waterMeter = new WaterMeter();
+                
+                waterMeter.Period = new DateTime(model.PeriodYear, model.PeriodMonth, DateTime.DaysInMonth(model.PeriodYear, model.PeriodMonth));
+                waterMeter.Cold = model.Cold;
+                waterMeter.Hot = model.Hot;
+                if(isNew)
+                    waterMeterDataContext.WaterMeters.Add(waterMeter);
                 waterMeterDataContext.SaveChanges();
                 return RedirectToAction("Index");
             }
