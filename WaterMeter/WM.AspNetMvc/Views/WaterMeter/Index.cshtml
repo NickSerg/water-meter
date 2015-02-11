@@ -1,0 +1,31 @@
+﻿@using WM.AspNetMvc.Models
+@model System.Data.Entity.DbSet<WM.AspNetMvc.Models.WaterMeter>
+
+@{
+    ViewBag.Title = "Показания прибора учёта";
+ }
+
+<h2>Показания прибора учёта</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Период показаний</th>
+        <th>Холодная вода</th>
+        <th>Горячая вода</th>
+        <th>Дата регистрации показаний</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (WaterMeter waterMeter in Model)
+    {
+        <tr>
+            <td>@waterMeter.Period</td>
+            <td>@waterMeter.Cold</td>
+            <td>@waterMeter.Hot</td>
+            <td>@waterMeter.Created</td>
+        </tr>
+    }
+    </tbody>
+</table>
+@Html.ActionLink("Внести показания прибора учёта", "AddWaterMeter")
+

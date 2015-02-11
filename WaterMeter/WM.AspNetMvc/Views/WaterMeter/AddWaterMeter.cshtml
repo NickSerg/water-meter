@@ -1,0 +1,34 @@
+﻿@using WM.AspNetMvc.Models
+@model WaterMeterViewModel
+
+@{
+    ViewBag.Title = "Регистрация показаний прибора учёта";
+}
+
+<h2>Показания прибора учёта</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.PeriodMonth)
+        <p>
+            @Html.DropDownListFor(x => x.PeriodMonth, WaterMeterViewModel.Months)
+            @Html.DropDownListFor(x => x.PeriodYear, WaterMeterViewModel.Years)
+        </p>
+        @Html.ValidationMessageFor(x => x.PeriodMonth)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Cold)
+        @Html.TextBoxFor(x => x.Cold, new {Class = "form-control"})
+        @Html.ValidationMessageFor(x => x.Cold)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Hot)
+        @Html.TextBoxFor(x => x.Hot, new {Class = "form-control"})
+        @Html.ValidationMessageFor(x => x.Hot)
+    </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-default"/>
+}
