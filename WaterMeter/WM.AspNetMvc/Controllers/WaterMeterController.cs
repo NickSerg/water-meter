@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using WM.AspNetMvc.Models;
@@ -46,6 +47,25 @@ namespace WM.AspNetMvc.Controllers
                 waterMeter.Hot = model.Hot;
                 if(isNew)
                     waterMeterDataContext.WaterMeters.Add(waterMeter);
+                waterMeterDataContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult EditWaterMeter(WaterMeter waterMeter)
+        {
+            return View(waterMeter);
+        }
+
+        [HttpPost]
+        public ActionResult EditWaterMeter(WaterMeter waterMeter, FormCollection formCollection)
+        {
+            if (ModelState.IsValid)
+            {
+                waterMeterDataContext.Entry(waterMeter).State= EntityState.Modified;
                 waterMeterDataContext.SaveChanges();
                 return RedirectToAction("Index");
             }

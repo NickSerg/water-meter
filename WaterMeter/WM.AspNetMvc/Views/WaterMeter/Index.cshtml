@@ -23,7 +23,10 @@
             <td>@waterMeter.Cold</td>
             <td>@waterMeter.Hot</td>
             <td>@waterMeter.Created.ToString("d")</td>
-            <td>@Html.ActionLink("Удалить", "DeleteWaterMeter", waterMeter)</td>
+            <td>
+                @Html.ActionLink("Изменить", "EditWaterMeter", waterMeter)
+                @Html.ActionLink("Удалить", "DeleteWaterMeter", waterMeter)
+            </td>
         </tr>
     }
     </tbody>
