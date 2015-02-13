@@ -6,13 +6,14 @@ using WM.AspNetMvc.Models;
 
 namespace WM.AspNetMvc.Controllers
 {
+    [Authorize(Roles = "Admin, Users")]
     public class WaterMeterController : Controller
     {
-        private readonly WaterMeterDataContext waterMeterDataContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
         public WaterMeterController()
         {
-            waterMeterDataContext = new WaterMeterDataContext();
+            applicationDbContext = new ApplicationDbContext();
         }
 
         // GET: WaterMeter
@@ -20,21 +21,23 @@ namespace WM.AspNetMvc.Controllers
         {
             ViewBag.MyHeader = "Water Meter";
             
-            return View(waterMeterDataContext.WaterMeters.OrderByDescending(x=>x.Period));
+            return View(applicationDbContext.WaterMeters.OrderByDescending(x=>x.Period));
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult AddWaterMeter()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult AddWaterMeter(WaterMeterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var waterMeter = waterMeterDataContext.WaterMeters.FirstOrDefault(x =>
+                var waterMeter = applicationDbContext.WaterMeters.FirstOrDefault(x =>
                     x.Period.Month == model.PeriodMonth
                     && x.Period.Year == model.PeriodYear);
 
@@ -46,8 +49,8 @@ namespace WM.AspNetMvc.Controllers
                 waterMeter.Cold = model.Cold;
                 waterMeter.Hot = model.Hot;
                 if(isNew)
-                    waterMeterDataContext.WaterMeters.Add(waterMeter);
-                waterMeterDataContext.SaveChanges();
+                    applicationDbContext.WaterMeters.Add(waterMeter);
+                applicationDbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -55,33 +58,36 @@ namespace WM.AspNetMvc.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult EditWaterMeter(WaterMeter waterMeter)
         {
             return View(waterMeter);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult EditWaterMeter(WaterMeter waterMeter, FormCollection formCollection)
         {
             if (ModelState.IsValid)
             {
-                waterMeterDataContext.Entry(waterMeter).State= EntityState.Modified;
-                waterMeterDataContext.SaveChanges();
+                applicationDbContext.Entry(waterMeter).State= EntityState.Modified;
+                applicationDbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteWaterMeter(WaterMeter waterMeter)
         {
             if (waterMeter != null)
             {
-                var deleteWaterMeter = waterMeterDataContext.WaterMeters.Find(waterMeter.Id);
+                var deleteWaterMeter = applicationDbContext.WaterMeters.Find(waterMeter.Id);
                 if (deleteWaterMeter != null)
                 {
-                    waterMeterDataContext.WaterMeters.Remove(deleteWaterMeter);
-                    waterMeterDataContext.SaveChanges();
+                    applicationDbContext.WaterMeters.Remove(deleteWaterMeter);
+                    applicationDbContext.SaveChanges();
                 }
             }
 

@@ -1,0 +1,38 @@
+﻿@model WM.AspNetMvc.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Детали";
+}
+<h2>@ViewBag.Title</h2>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+</div>
+<h4>Роли</h4>
+@if (ViewBag.RoleNames.Count == 0)
+{
+    <hr />
+    <p>Нет ролей</p>
+}
+<table class="table">
+    @foreach (var item in ViewBag.RoleNames)
+    {
+        <tr>
+            <td>
+                @item
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Изменить", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Перейти к списку пользователей", "Index")
+</p>

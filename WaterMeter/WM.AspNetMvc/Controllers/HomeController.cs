@@ -2,6 +2,7 @@
 
 namespace WM.AspNetMvc.Controllers
 {
+    [Authorize(Roles = "Admin, Users")]
     public class HomeController : Controller
     {
         public ActionResult About()

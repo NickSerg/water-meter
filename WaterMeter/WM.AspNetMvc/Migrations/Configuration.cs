@@ -1,31 +1,54 @@
+using System;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using System.Web;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using WM.AspNetMvc.Models;
+using Constants = WM.AspNetMvc.Models.Constants;
+
 namespace WM.AspNetMvc.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<WM.AspNetMvc.Models.WaterMeterDataContext>
+    internal class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(WM.AspNetMvc.Models.WaterMeterDataContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            const string name = "Admin@watermeter.com";
+            const string password = "Default@123";
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            var role = roleManager.Roles.FirstOrDefault(x => x.Name == Constants.AdminRoleName);
+            if (role == null)
+            {
+                role = new ApplicationRole(Constants.AdminRoleName);
+                var roleresult = roleManager.Create(role);
+            }
+
+            var user = userManager.FindByName(name);
+            if (user == null)
+            {
+                user = new ApplicationUser { UserName = name, Email = name };
+                var result = userManager.Create(user, password);
+                if (!result.Succeeded)
+                    throw new Exception(result.Errors.FirstOrDefault() ?? string.Empty);
+
+                result = userManager.SetLockoutEnabled(user.Id, false);
+            }
+
+            // Add user admin to Role Admin if not already added
+            var rolesForUser = userManager.GetRoles(user.Id);
+            if (!rolesForUser.Contains(role.Name))
+            {
+                var result = userManager.AddToRole(user.Id, role.Name);
+            }
+
+            base.Seed(context);
         }
     }
 }

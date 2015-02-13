@@ -22,6 +22,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Внести показания", "AddWaterMeter", "WaterMeter")</li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Роли", "Index", "RolesAdmin")</li>
+                        <li>@Html.ActionLink("Пользователи", "Index", "UsersAdmin")</li>
+                    }
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

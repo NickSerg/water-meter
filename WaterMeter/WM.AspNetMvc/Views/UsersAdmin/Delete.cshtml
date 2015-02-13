@@ -1,0 +1,28 @@
+﻿@model WM.AspNetMvc.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Удаление пользователя";
+}
+<h2>@ViewBag.Title</h2>
+<h3>Вы действительно хотите удалить пользователя?</h3>
+<div>
+    <h4>Пользователь</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Перейти к списку пользователей", "Index")
+        </div>
+    }
+</div>
