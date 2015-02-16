@@ -1,14 +1,16 @@
-﻿@{
+﻿@using WM.AspNetMvc.Models
+@model Config
+@{
     ViewBag.Title = "Контакты";
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
 
 <address>
-    <br />
-    <br />
+    @Model.Contact.Sity <br/>
+    @Model.Contact.Home <br/>
 </address>
 
 <address>
-    <strong>Support:</strong> <a href="mailto:support@watermeter.com">support@watermeter.com</a><br/>
+    <strong>Support:</strong> <a href=@string.Format("mailto:{0}", @Model.Contact.Email)>@Model.Contact.Email</a><br/>
 </address>
