@@ -20,7 +20,7 @@
     @foreach (WaterMeter waterMeter in Model)
     {
         <tr>
-            <td>@waterMeter.Period.ToString("yyyy MMMM")</td>
+            <td>@waterMeter.Period.ToString("d")</td>
             <td>@waterMeter.Cold</td>
             <td>@waterMeter.Hot</td>
             <td>@waterMeter.Created.ToString("d")</td>

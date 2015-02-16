@@ -37,8 +37,17 @@ namespace WM.AspNetMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(applicationDbContext.WaterMeters.FirstOrDefault(x=>x.Period == model.Period) != null)
+                var waterMeter = applicationDbContext.WaterMeters.FirstOrDefault(x => x.Period == model.Period);
+                if (waterMeter != null)
+                {
+                    waterMeter.Period = model.Period;
+                    waterMeter.Cold = model.Cold;
+                    waterMeter.Hot = model.Hot;
+                }
+                else
+                {
                     applicationDbContext.WaterMeters.Add(model);
+                }
 
                 applicationDbContext.SaveChanges();
                 return RedirectToAction("Index");
