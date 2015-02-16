@@ -33,23 +33,13 @@ namespace WM.AspNetMvc.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult AddWaterMeter(WaterMeterViewModel model)
+        public ActionResult AddWaterMeter(WaterMeter model)
         {
             if (ModelState.IsValid)
             {
-                var waterMeter = applicationDbContext.WaterMeters.FirstOrDefault(x =>
-                    x.Period.Month == model.PeriodMonth
-                    && x.Period.Year == model.PeriodYear);
+                if(applicationDbContext.WaterMeters.FirstOrDefault(x=>x.Period == model.Period) != null)
+                    applicationDbContext.WaterMeters.Add(model);
 
-                var isNew = waterMeter == null;
-                if(isNew)
-                    waterMeter = new WaterMeter();
-                
-                waterMeter.Period = new DateTime(model.PeriodYear, model.PeriodMonth, DateTime.DaysInMonth(model.PeriodYear, model.PeriodMonth));
-                waterMeter.Cold = model.Cold;
-                waterMeter.Hot = model.Hot;
-                if(isNew)
-                    applicationDbContext.WaterMeters.Add(waterMeter);
                 applicationDbContext.SaveChanges();
                 return RedirectToAction("Index");
             }

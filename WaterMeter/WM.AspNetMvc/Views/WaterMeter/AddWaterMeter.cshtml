@@ -1,5 +1,5 @@
 ﻿@using WM.AspNetMvc.Models
-@model WaterMeterViewModel
+@model WaterMeter
 
 @{
     ViewBag.Title = "Регистрация показаний прибора учёта";
@@ -10,12 +10,9 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        @Html.LabelFor(x => x.PeriodMonth)
-        <p>
-            @Html.DropDownListFor(x => x.PeriodMonth, WaterMeterViewModel.Months)
-            @Html.DropDownListFor(x => x.PeriodYear, WaterMeterViewModel.Years)
-        </p>
-        @Html.ValidationMessageFor(x => x.PeriodMonth)
+        @Html.LabelFor(x => x.Period)
+        @Html.TextBoxFor(x => x.Period, new { Class = "form-control datepicker" })
+        @Html.ValidationMessageFor(x => x.Period)
     </div>
 
     <div class="form-group">
@@ -31,4 +28,40 @@
     </div>
 
     <input type="submit" value="Сохранить" class="btn btn-default"/>
+    @section Scripts
+    {
+        <!-- jQuery UI CSS Reference -->
+        <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+        <script src="@Url.Content("~/Scripts/jquery-ui-1.11.3.min.js")"></script>
+        <!-- Code to wire up your DatePicker -->
+        <script type="text/javascript">
+            $(function () {
+                $.datepicker.regional["ru"] = {
+                    closeText: "Закрыть",
+                    prevText: "&#x3c;Пред",
+                    nextText: "След&#x3e;",
+                    currentText: "Сегодня",
+                    monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+                    monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+                    "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+                    dayNames: ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"],
+                    dayNamesShort: ["вск", "пнд", "втр", "срд", "чтв", "птн", "сбт"],
+                    dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                    weekHeader: "Не",
+                    dateFormat: "dd.mm.yy",
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: ""
+                };
+                $.datepicker.setDefaults($.datepicker.regional["ru"]);
+                // This will make every element with the class "datepicker" into a DatePicker element
+                var datepickerObject = $(".datepicker");
+                datepickerObject.datepicker();
+//                datepickerObject.datepicker("option", "dateFormat", "dd.mm.yy");
+            })
+        </script>
+    }
 }
