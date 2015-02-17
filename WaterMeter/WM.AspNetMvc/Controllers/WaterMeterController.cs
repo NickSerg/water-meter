@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Reporting.WebForms;
 using WM.AspNetMvc.Models;
 
 namespace WM.AspNetMvc.Controllers
@@ -91,6 +92,63 @@ namespace WM.AspNetMvc.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Admin, Users")]
+        public ActionResult PrintWaterMeter(WaterMeter waterMeter)
+        {
+            var prevWaterMeter = applicationDbContext.WaterMeters
+                .OrderByDescending(x => x.Period)
+                .FirstOrDefault(x => x.Period < waterMeter.Period)
+                                 ?? new WaterMeter {Period = waterMeter.Period};
+
+            const string reportType = "PDF";
+            var localReport = new LocalReport
+            {
+                ReportPath = Server.MapPath("~/Content/Report.rdlc"),
+                EnableExternalImages = true,
+            };
+            var config = Config.GetCurrent(Server);
+            localReport.SetParameters(new[]
+            {
+                new ReportParameter("prevPeriod", prevWaterMeter.Period.ToShortDateString()), 
+                new ReportParameter("prevCold", prevWaterMeter.Cold.ToString()), 
+                new ReportParameter("prevHot", prevWaterMeter.Hot.ToString()), 
+                new ReportParameter("Period", waterMeter.Period.ToShortDateString()), 
+                new ReportParameter("Cold", waterMeter.Cold.ToString()), 
+                new ReportParameter("Hot", waterMeter.Hot.ToString()), 
+                new ReportParameter("Address", config.Report.Address), 
+                new ReportParameter("Tenant", config.Report.Tenant), 
+                new ReportParameter("SignaturePath", new Uri(Server.MapPath("~/App_Data/signature.png")).AbsoluteUri)
+            });
+
+            //The DeviceInfo settings should be changed based on the reportType
+            //http://msdn2.microsoft.com/en-us/library/ms155397.aspx
+            const string deviceInfo = @"<DeviceInfo>
+                <OutputFormat>PDF</OutputFormat>
+               <PageWidth>8.27in</PageWidth>
+                <PageHeight>11.69in</PageHeight>
+                <MarginTop>0in</MarginTop>
+                <MarginLeft>0in</MarginLeft>
+                <MarginRight>0in</MarginRight>
+                <MarginBottom>0in</MarginBottom>
+            </DeviceInfo>";
+            
+            Warning[] warnings;
+            string[] streams;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            var renderedBytes = localReport.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings);
+
+            return File(renderedBytes, "application/pdf");
         }
     }
 }

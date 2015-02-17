@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WM.AspNetMvc", "WM.AspNetMv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WM.AspNetMvc.Tests", "WM.AspNetMvc.Tests\WM.AspNetMvc.Tests.csproj", "{AA2D1682-DD66-4303-AA04-F426428511A5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{F7FC4864-461E-4386-8A94-1FB9E764C10F}"
+	ProjectSection(SolutionItems) = preProject
+		lib\Microsoft.ReportViewer.Common.dll = lib\Microsoft.ReportViewer.Common.dll
+		lib\Microsoft.ReportViewer.ProcessingObjectModel.DLL = lib\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+		lib\Microsoft.SqlServer.Types.dll = lib\Microsoft.SqlServer.Types.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

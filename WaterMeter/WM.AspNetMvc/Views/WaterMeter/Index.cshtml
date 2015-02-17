@@ -25,7 +25,8 @@
             <td>@waterMeter.Hot</td>
             <td>@waterMeter.Created.ToString("d")</td>
             <td>
-                @Html.ActionLink("Изменить", "EditWaterMeter", waterMeter)
+                @Html.ActionLink("Печать", "PrintWaterMeter", waterMeter) |
+                @Html.ActionLink("Изменить", "EditWaterMeter", waterMeter) |
                 @Html.ActionLink("Удалить", "DeleteWaterMeter", waterMeter)
             </td>
         </tr>
