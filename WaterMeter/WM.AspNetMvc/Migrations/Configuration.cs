@@ -28,24 +28,24 @@ namespace WM.AspNetMvc.Migrations
             {
                 role = new ApplicationRole(Constants.AdminRoleName);
                 var roleresult = roleManager.Create(role);
-            }
 
-            var user = userManager.FindByName(name);
-            if (user == null)
-            {
-                user = new ApplicationUser { UserName = name, Email = name };
-                var result = userManager.Create(user, password);
-                if (!result.Succeeded)
-                    throw new Exception(result.Errors.FirstOrDefault() ?? string.Empty);
+                var user = userManager.FindByName(name);
+                if (user == null)
+                {
+                    user = new ApplicationUser {UserName = name, Email = name};
+                    var result = userManager.Create(user, password);
+                    if (!result.Succeeded)
+                        throw new Exception(result.Errors.FirstOrDefault() ?? string.Empty);
 
-                result = userManager.SetLockoutEnabled(user.Id, false);
-            }
+                    result = userManager.SetLockoutEnabled(user.Id, false);
+                }
 
-            // Add user admin to Role Admin if not already added
-            var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name))
-            {
-                var result = userManager.AddToRole(user.Id, role.Name);
+                // Add user admin to Role Admin if not already added
+                var rolesForUser = userManager.GetRoles(user.Id);
+                if (!rolesForUser.Contains(role.Name))
+                {
+                    var result = userManager.AddToRole(user.Id, role.Name);
+                }
             }
 
             base.Seed(context);
