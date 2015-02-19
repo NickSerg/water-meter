@@ -11,7 +11,7 @@
 {
     <div class="form-group">
         @Html.LabelFor(x => x.Period)
-        @Html.TextBoxFor(x => x.Period, new { Class = "form-control datepicker" })
+        @Html.TextBoxFor(x => x.Period, new {Class = "form-control datepicker", Value = Model.Period.ToString("dd.MM.yyyy")})
         @Html.ValidationMessageFor(x => x.Period)
     </div>
 
@@ -59,7 +59,10 @@
                 $.datepicker.setDefaults($.datepicker.regional["ru"]);
                 // This will make every element with the class "datepicker" into a DatePicker element
                 var datepickerObject = $(".datepicker");
-                datepickerObject.datepicker();
+                datepickerObject.datepicker({
+                    changeYear: true,
+                    changeMonth: true
+                });
             })
         </script>
     }

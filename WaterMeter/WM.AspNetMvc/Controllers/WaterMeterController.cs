@@ -29,7 +29,8 @@ namespace WM.AspNetMvc.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult AddWaterMeter()
         {
-            return View();
+            var waterMeter = new WaterMeter {Period = DateTime.Now};
+            return View(waterMeter);
         }
 
         [HttpPost]
